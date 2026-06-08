@@ -364,40 +364,29 @@
 </script>
 <script>
     (function() {
-        // Определяем встроенный браузер (WebView) без UI браузера
-        const isWebView = () => {
-            const ua = navigator.userAgent;
-            // Android WebView
-            if (ua.includes('; wv)')) return true;
-            // iOS WebView
-            if (/iPad|iPhone|iPod/.test(ua) && !window.safari && !window.webkit?.messageHandlers) return true;
-            // Доп. проверка: нет поддержки установки (beforeinstallprompt недоступен)
-            return false;
-        };
-
-        if (isWebView()) {
-            const url = window.location.href;
-            const ua = navigator.userAgent;
-            // Android: открываем через Intent в Chrome
-            if (ua.includes('Android')) {
-                window.location.href = 'intent://' + url.replace(/^https?:\/\//, '') + '#Intent;scheme=https;package=com.android.chrome;end';
-            } 
-            // iOS: можно только показать кнопку (программно открыть Safari нельзя)
-            else if (/iPhone|iPad|iPod/.test(ua)) {
-                // Создаём плашку на весь экран с кнопкой и инструкцией
-                const overlay = document.createElement('div');
-                overlay.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:99999; display:flex; justify-content:center; align-items:center; flex-direction:column; color:white; font-family:sans-serif; text-align:center; padding:20px;';
-                overlay.innerHTML = `
-                    <h2>Откройте в Safari</h2>
-                    <p style="margin:20px 0">Нажмите кнопку ниже, затем<br>на иконку <b>«Поделиться»</b> и выберите <b>«Открыть в Safari»</b></p>
-                    <button id="forceOpenBtn" style="background:#007aff; border:none; color:white; padding:12px 24px; border-radius:30px; font-size:18px; font-weight:bold;">Открыть в Safari</button>
-                    <p style="margin-top:30px; font-size:12px;">После открытия появится кнопка установки</p>
-                `;
-                document.body.appendChild(overlay);
-                document.getElementById('forceOpenBtn').onclick = () => {
-                    window.location.href = url; // повторная попытка – может сработать, если пользователь разрешил
-                };
-            }
+        // Если уже установлено – ничего не делаем
+        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+            return;
+        }
+        // Определяем встроенный браузер по наличию признаков WebView
+        const ua = navigator.userAgent;
+        const isWebView = (ua.indexOf('; wv)') > -1) || (/iPhone|iPad|iPod/.test(ua) && !window.safari && !window.webkit?.messageHandlers);
+        
+        if (isWebView) {
+            // Показываем баннер мгновенно, без задержки
+            const banner = document.createElement('div');
+            banner.innerHTML = `
+                <div style="position:fixed; top:0; left:0; right:0; background:#000; color:#fff; padding:16px; text-align:center; font-family:sans-serif; z-index:10000; border-bottom:2px solid #ffaa00;">
+                    📱 <strong>Установите приложение</strong><br>
+                    Откройте эту ссылку в браузере <span style="color:#ffaa00;">Chrome</span> (Android) или <span style="color:#ffaa00;">Safari</span> (iPhone)<br>
+                    <button id="copyLinkBtn" style="margin-top:10px; background:#ffaa00; border:none; padding:8px 20px; border-radius:30px; font-weight:bold; color:#000;">Скопировать ссылку</button>
+                </div>
+            `;
+            document.body.appendChild(banner);
+            document.getElementById('copyLinkBtn').onclick = () => {
+                navigator.clipboard.writeText(window.location.href);
+                alert('Ссылка скопирована. Откройте её в Chrome/Safari и нажмите "Установить"');
+            };
         }
     })();
 </script>
