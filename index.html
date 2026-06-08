@@ -6,12 +6,12 @@
     <title>PWA-решения | Статические приложения и обёртки для бизнеса</title>
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" sizes="32x32" href="./icon-192.png">
-<link rel="icon" type="image/png" sizes="16x16" href="./icon-192.png">
-<link rel="shortcut icon" href="./icon-192.png">
-    <!-- Tailwind CSS + Font Awesome (иконки) -->
+    <link rel="icon" type="image/png" sizes="16x16" href="./icon-192.png">
+    <link rel="shortcut icon" href="./icon-192.png">
+    <link rel="apple-touch-icon" href="./icon-192.png">
+    <!-- Tailwind CSS + Font Awesome -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Кастомные стили для теней и переходов -->
     <style>
         .card-hover {
             transition: transform 0.2s, box-shadow 0.2s;
@@ -23,69 +23,68 @@
         .gradient-bg {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
         }
-        /* Кнопки установки */
-.install-buttons {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    display: flex;
-    gap: 10px;
-    z-index: 1000;
-}
-.install-btn {
-    background: #000;
-    color: white;
-    border: none;
-    border-radius: 40px;
-    padding: 10px 16px;
-    font-size: 14px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    cursor: pointer;
-    transition: transform 0.1s;
-}
-.install-btn:active { transform: scale(0.96); }
-.install-btn.android { background: #3DDC84; color: #000; }
-.install-btn.ios { background: #000; color: white; }
-/* Модальное окно */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.7);
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-}
-.modal-content {
-    background: white;
-    max-width: 300px;
-    padding: 20px;
-    border-radius: 20px;
-    text-align: center;
-    font-family: sans-serif;
-}
-.modal-content img {
-    width: 100%;
-    margin: 10px 0;
-}
-.close-modal {
-    margin-top: 15px;
-    background: #007aff;
-    color: white;
-    border: none;
-    padding: 8px 20px;
-    border-radius: 20px;
-    font-weight: bold;
-}
+        /* Стили для кнопок установки */
+        .install-buttons {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+        .install-btn {
+            background: #000;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .install-btn:active { transform: scale(0.96); }
+        .install-btn.android { background: #3DDC84; color: #000; }
+        .install-btn.ios { background: #000; color: white; }
+        /* Модальное окно для iOS */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .modal-content {
+            background: white;
+            max-width: 300px;
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+            font-family: sans-serif;
+        }
+        .modal-content img {
+            width: 80px;
+            margin: 10px auto;
+        }
+        .close-modal {
+            margin-top: 15px;
+            background: #007aff;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body class="bg-gray-50 font-sans">
-    <!-- Хедер -->
     <header class="gradient-bg text-white py-12 px-4 shadow-lg">
         <div class="container mx-auto max-w-6xl text-center">
             <h1 class="text-4xl md:text-5xl font-bold mb-4">PWA & статические приложения</h1>
@@ -97,7 +96,6 @@
         </div>
     </header>
 
-    <!-- Секция "О себе / Услуги" -->
     <section class="py-16 px-4 bg-white">
         <div class="container mx-auto max-w-6xl">
             <div class="grid md:grid-cols-2 gap-12 items-center">
@@ -123,17 +121,13 @@
         </div>
     </section>
 
-    <!-- Секция проектов -->
     <section id="projects" class="py-16 px-4 bg-gray-50">
         <div class="container mx-auto max-w-6xl">
             <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Реализованные проекты</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="projectsGrid">
-                <!-- Карточки будут добавлены через JS -->
-            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="projectsGrid"></div>
         </div>
     </section>
 
-    <!-- Футер + форма заказа -->
     <footer class="bg-gray-800 text-white py-12 px-4">
         <div class="container mx-auto max-w-6xl text-center">
             <h3 class="text-2xl font-bold mb-4">Нужно приложение для вашего бизнеса?</h3>
@@ -147,8 +141,31 @@
         </div>
     </footer>
 
+    <!-- Кнопки установки -->
+    <div class="install-buttons" id="installButtons" style="display: none;">
+        <button class="install-btn android" id="btnAndroid">
+            <i class="fab fa-android"></i> Установить
+        </button>
+        <button class="install-btn ios" id="btnIos">
+            <i class="fab fa-apple"></i> iOS
+        </button>
+    </div>
+
+    <!-- Модальное окно для iOS -->
+    <div id="iosModal" class="modal">
+        <div class="modal-content">
+            <h3>Установка на iPhone/iPad</h3>
+            <p>Нажмите кнопку «Поделиться» <i class="fas fa-share-alt"></i></p>
+            <img src="https://developer.apple.com/assets/ios-share-icon.png" alt="Share">
+            <p>Затем выберите <strong>«На экран «Домой»</strong></p>
+            <img src="https://cdn-icons-png.flaticon.com/512/1030/1030347.png" alt="Add to Home">
+            <p>Нажмите «Добавить» — приложение появится на рабочем столе.</p>
+            <button class="close-modal">Закрыть</button>
+        </div>
+    </div>
+
     <script>
-        // Генерация QR-кода (простая библиотека, встроим через CDN)
+        // QR-код
         const qrScript = document.createElement('script');
         qrScript.src = 'https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js';
         qrScript.onload = () => {
@@ -160,59 +177,16 @@
         };
         document.head.appendChild(qrScript);
 
-        // Данные проектов (добавьте свои)
+        // Данные проектов
         const projects = [
-            {
-                title: "Ремонт-Про (калькулятор)",
-                description: "PWA с калькулятором ремонта, офлайн-режим, админ-панель для цен",
-                demoUrl: "https://vf12776-ux.github.io/remont-pro/",
-                repoUrl: "https://github.com/vf12776-ux/remont-pro",
-                tech: "HTML/CSS/JS, LocalStorage",
-                imagePlaceholder: "🔧"
-            },
-            {
-                title: "Автор — бронирование (Avtor-App-Simple)",
-                description: "Форма заказа услуг, имитация оплаты, выбор города",
-                demoUrl: "https://vf12776-ux.github.io/Avtor-App-Simple/",
-                repoUrl: "https://github.com/vf12776-ux/Avtor-App-Simple",
-                tech: "Tailwind, JS, PWA manifest",
-                imagePlaceholder: "📅"
-            },
-            {
-                title: "Горбуфет (сеть кафе)",
-                description: "Меню и доставка, PWA-обёртка для TapLink",
-                demoUrl: "https://gorbufet-pwa.onrender.com",
-                repoUrl: "https://github.com/vf12776-ux/gorbufet-pwa",
-                tech: "PWA, Service Worker",
-                imagePlaceholder: "☕"
-            },
-            {
-                title: "Дети Света (магазин одежды)",
-                description: "Лендинг-приложение с корзиной и уведомлениями",
-                demoUrl: "https://vf12776-ux.github.io/detisveta-pwa/",
-                repoUrl: "https://github.com/vf12776-ux/detisveta-pwa",
-                tech: "HTML/CSS/JS, Push API",
-                imagePlaceholder: "👕"
-            },
-            {
-                title: "China Business Landing",
-                description: "Адаптивный лендинг с анимацией, шаблон для бизнеса",
-                demoUrl: "https://vf12776-ux.github.io/china-busines-landing/",
-                repoUrl: "https://github.com/vf12776-ux/china-busines-landing",
-                tech: "HTML/CSS, Flex/Grid",
-                imagePlaceholder: "🇨🇳"
-            },
-            {
-                title: "P2P Messanger (Go + WebRTC)",
-                description: "Децентрализованный мессенджер для бизнеса (в разработке)",
-                demoUrl: "https://p2p-messenger-go.onrender.com",
-                repoUrl: "https://github.com/vf12776-ux/p2p-messenger-go",
-                tech: "Go, WebSockets, PWA",
-                imagePlaceholder: "💬"
-            }
+            { title: "Ремонт-Про (калькулятор)", description: "PWA с калькулятором ремонта, офлайн-режим, админ-панель для цен", demoUrl: "https://vf12776-ux.github.io/remont-pro/", repoUrl: "https://github.com/vf12776-ux/remont-pro", tech: "HTML/CSS/JS, LocalStorage", imagePlaceholder: "🔧" },
+            { title: "Автор — бронирование (Avtor-App-Simple)", description: "Форма заказа услуг, имитация оплаты, выбор города", demoUrl: "https://vf12776-ux.github.io/Avtor-App-Simple/", repoUrl: "https://github.com/vf12776-ux/Avtor-App-Simple", tech: "Tailwind, JS, PWA manifest", imagePlaceholder: "📅" },
+            { title: "Горбуфет (сеть кафе)", description: "Меню и доставка, PWA-обёртка для TapLink", demoUrl: "https://gorbufet-pwa.onrender.com", repoUrl: "https://github.com/vf12776-ux/gorbufet-pwa", tech: "PWA, Service Worker", imagePlaceholder: "☕" },
+            { title: "Дети Света (магазин одежды)", description: "Лендинг-приложение с корзиной и уведомлениями", demoUrl: "https://vf12776-ux.github.io/detisveta-pwa/", repoUrl: "https://github.com/vf12776-ux/detisveta-pwa", tech: "HTML/CSS/JS, Push API", imagePlaceholder: "👕" },
+            { title: "China Business Landing", description: "Адаптивный лендинг с анимацией, шаблон для бизнеса", demoUrl: "https://vf12776-ux.github.io/china-busines-landing/", repoUrl: "https://github.com/vf12776-ux/china-busines-landing", tech: "HTML/CSS, Flex/Grid", imagePlaceholder: "🇨🇳" },
+            { title: "P2P Messanger (Go + WebRTC)", description: "Децентрализованный мессенджер для бизнеса (в разработке)", demoUrl: "https://p2p-messenger-go.onrender.com", repoUrl: "https://github.com/vf12776-ux/p2p-messenger-go", tech: "Go, WebSockets, PWA", imagePlaceholder: "💬" }
         ];
 
-        // Рендер карточек
         const grid = document.getElementById('projectsGrid');
         projects.forEach(proj => {
             const card = document.createElement('div');
@@ -232,163 +206,110 @@
             grid.appendChild(card);
         });
     </script>
+
+    <!-- Регистрация Service Worker -->
     <script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/my-pwa-portfolio/sw.js');
-  }
-</script>
-<div class="install-buttons" id="installButtons" style="display: none;">
-    <button class="install-btn android" id="btnAndroid">
-        <i class="fab fa-android"></i> Установить
-    </button>
-    <button class="install-btn ios" id="btnIos">
-        <i class="fab fa-apple"></i> iOS
-    </button>
-</div>
-
-<div id="iosModal" class="modal">
-    <div class="modal-content">
-        <h3>Установка на iPhone/iPad</h3>
-        <p>Нажмите кнопку «Поделиться» <i class="fas fa-share-alt"></i></p>
-        <img src="https://developer.apple.com/assets/ios-share-icon.png" alt="Share" style="width:50px;">
-        <p>Затем выберите <strong>«На экран «Домой»</strong></p>
-        <img src="https://cdn-icons-png.flaticon.com/512/1030/1030347.png" alt="Add to Home" style="width:50px;">
-        <p>Нажмите «Добавить» — приложение появится на рабочем столе.</p>
-        <button class="close-modal">Закрыть</button>
-    </div>
-</div>
-<script>
-    (function() {
-        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-        const installContainer = document.getElementById('installButtons');
-        
-        // Если приложение уже установлено – скрываем кнопки и выходим, ничего не показывая
-        if (isStandalone) {
-            if (installContainer) installContainer.style.display = 'none';
-            return;
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/my-pwa-portfolio/sw.js');
         }
+    </script>
 
-        let deferredPrompt = null;
-        const btnAndroid = document.getElementById('btnAndroid');
-        const btnIos = document.getElementById('btnIos');
-        const iosModal = document.getElementById('iosModal');
-        const closeModal = document.querySelector('.close-modal');
-
-        // Показываем контейнер с кнопками ТОЛЬКО если не установлено
-        if (installContainer) installContainer.style.display = 'flex';
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            if (btnAndroid) btnAndroid.style.display = 'flex';
-        });
-
-        setTimeout(() => {
-            if (deferredPrompt === null && btnAndroid && btnAndroid.style.display !== 'none') {
-                btnAndroid.style.display = 'none';
+    <!-- Скрипт установки с кнопками и стандартным окном -->
+    <script>
+        (function() {
+            // Проверка, установлено ли уже приложение
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+            const installContainer = document.getElementById('installButtons');
+            
+            if (isStandalone) {
+                if (installContainer) installContainer.style.display = 'none';
+                return;
             }
-        }, 1000);
 
-        if (btnAndroid) {
-            btnAndroid.addEventListener('click', async () => {
-                if (!deferredPrompt) return;
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted' && installContainer) {
-                    installContainer.style.display = 'none';
+            let deferredPrompt = null;
+            const btnAndroid = document.getElementById('btnAndroid');
+            const btnIos = document.getElementById('btnIos');
+            const iosModal = document.getElementById('iosModal');
+            const closeModal = document.querySelector('.close-modal');
+
+            // Показываем контейнер кнопок
+            if (installContainer) installContainer.style.display = 'flex';
+
+            // Слушаем событие beforeinstallprompt, НЕ вызывая preventDefault
+            window.addEventListener('beforeinstallprompt', (e) => {
+                deferredPrompt = e;  // сохраняем событие
+                if (btnAndroid) btnAndroid.style.display = 'flex';
+                // Стандартное окно браузера появится само, мы его не блокируем
+            });
+
+            // Если через 1 секунду событие не пришло, скрываем кнопку Android (например, на iOS)
+            setTimeout(() => {
+                if (deferredPrompt === null && btnAndroid && btnAndroid.style.display !== 'none') {
+                    btnAndroid.style.display = 'none';
                 }
-                deferredPrompt = null;
-            });
-        }
+            }, 1000);
 
-        if (btnIos) {
-            btnIos.addEventListener('click', () => {
-                if (iosModal) iosModal.style.display = 'flex';
-            });
-        }
-
-        if (closeModal) {
-            closeModal.onclick = () => { if (iosModal) iosModal.style.display = 'none'; };
-        }
-        window.onclick = (event) => {
-            if (event.target === iosModal && iosModal) iosModal.style.display = 'none';
-        };
-
-        const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        if (isIos) {
-            if (btnAndroid) btnAndroid.style.display = 'none';
-            if (btnIos) btnIos.style.display = 'flex';
-        }
-    })();
-</script>
-<script>
-    let newWorker;
-    function showUpdateNotification() {
-        const notification = document.createElement('div');
-        notification.innerHTML = 'Доступна новая версия. Нажмите "Обновить"';
-        notification.style.position = 'fixed';
-        notification.style.bottom = '70px';
-        notification.style.right = '20px';
-        notification.style.backgroundColor = '#000';
-        notification.style.color = '#fff';
-        notification.style.padding = '10px 20px';
-        notification.style.borderRadius = '30px';
-        notification.style.zIndex = '9999';
-        notification.style.fontSize = '14px';
-        const btn = document.createElement('button');
-        btn.innerText = 'Обновить';
-        btn.style.marginLeft = '10px';
-        btn.style.padding = '4px 12px';
-        btn.style.borderRadius = '20px';
-        btn.style.border = 'none';
-        btn.onclick = () => {
-            newWorker.postMessage({ action: 'skipWaiting' });
-            window.location.reload();
-        };
-        notification.appendChild(btn);
-        document.body.appendChild(notification);
-    }
-
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/my-pwa-portfolio/sw.js').then(reg => {
-            reg.onupdatefound = () => {
-                newWorker = reg.installing;
-                newWorker.onstatechange = () => {
-                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                        showUpdateNotification();
+            // Обработчик кастомной кнопки Android
+            if (btnAndroid) {
+                btnAndroid.addEventListener('click', async () => {
+                    if (!deferredPrompt) return;
+                    deferredPrompt.prompt();  // показываем стандартное окно
+                    const { outcome } = await deferredPrompt.userChoice;
+                    if (outcome === 'accepted' && installContainer) {
+                        installContainer.style.display = 'none';  // скрываем кнопки после установки
                     }
+                    deferredPrompt = null;
+                });
+            }
+
+            // Обработчик кнопки iOS (показывает модалку с инструкцией)
+            if (btnIos) {
+                btnIos.addEventListener('click', () => {
+                    if (iosModal) iosModal.style.display = 'flex';
+                });
+            }
+
+            // Закрытие модалки
+            if (closeModal) {
+                closeModal.onclick = () => { if (iosModal) iosModal.style.display = 'none'; };
+            }
+            window.onclick = (event) => {
+                if (event.target === iosModal && iosModal) iosModal.style.display = 'none';
+            };
+
+            // На iOS скрываем кнопку Android, показываем только кнопку с яблоком
+            const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            if (isIos) {
+                if (btnAndroid) btnAndroid.style.display = 'none';
+                if (btnIos) btnIos.style.display = 'flex';
+            }
+        })();
+    </script>
+
+    <!-- Баннер для WebView (QR-сканер) -->
+    <script>
+        (function() {
+            if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+                return;
+            }
+            const ua = navigator.userAgent;
+            const isWebView = (ua.indexOf('; wv)') > -1) || (/iPhone|iPad|iPod/.test(ua) && !window.safari && !window.webkit?.messageHandlers);
+            if (isWebView) {
+                const banner = document.createElement('div');
+                banner.innerHTML = `
+                    <div style="position:fixed; top:0; left:0; right:0; background:#000; color:#fff; padding:16px; text-align:center; font-family:sans-serif; z-index:10000; border-bottom:2px solid #ffaa00;">
+                        📱 <strong>Установите приложение</strong><br>
+                        Откройте эту ссылку в браузере <span style="color:#ffaa00;">Chrome</span> (Android) или <span style="color:#ffaa00;">Safari</span> (iPhone)<br>
+                        <button id="copyLinkBtn" style="margin-top:10px; background:#ffaa00; border:none; padding:8px 20px; border-radius:30px; font-weight:bold; color:#000;">Скопировать ссылку</button>
+                    </div>
+                `;
+                document.body.appendChild(banner);
+                document.getElementById('copyLinkBtn').onclick = () => {
+                    navigator.clipboard.writeText(window.location.href);
+                    alert('Ссылка скопирована. Откройте её в Chrome/Safari и нажмите "Установить"');
                 };
-            };
-        });
-    }
-</script>
-<script>
-    (function() {
-        // Если уже установлено – ничего не делаем
-        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
-            return;
-        }
-        // Определяем встроенный браузер по наличию признаков WebView
-        const ua = navigator.userAgent;
-        const isWebView = (ua.indexOf('; wv)') > -1) || (/iPhone|iPad|iPod/.test(ua) && !window.safari && !window.webkit?.messageHandlers);
-        
-        if (isWebView) {
-            // Показываем баннер мгновенно, без задержки
-            const banner = document.createElement('div');
-            banner.innerHTML = `
-                <div style="position:fixed; top:0; left:0; right:0; background:#000; color:#fff; padding:16px; text-align:center; font-family:sans-serif; z-index:10000; border-bottom:2px solid #ffaa00;">
-                    📱 <strong>Установите приложение</strong><br>
-                    Откройте эту ссылку в браузере <span style="color:#ffaa00;">Chrome</span> (Android) или <span style="color:#ffaa00;">Safari</span> (iPhone)<br>
-                    <button id="copyLinkBtn" style="margin-top:10px; background:#ffaa00; border:none; padding:8px 20px; border-radius:30px; font-weight:bold; color:#000;">Скопировать ссылку</button>
-                </div>
-            `;
-            document.body.appendChild(banner);
-            document.getElementById('copyLinkBtn').onclick = () => {
-                navigator.clipboard.writeText(window.location.href);
-                alert('Ссылка скопирована. Откройте её в Chrome/Safari и нажмите "Установить"');
-            };
-        }
-    })();
-</script>
+            }
+        })();
+    </script>
 </body>
 </html>
