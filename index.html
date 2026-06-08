@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>PWA-решения | Статические приложения и обёртки для бизнеса</title>
+    <link rel="manifest" href="manifest.json">
+    <!-- Tailwind CSS + Font Awesome (иконки) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Кастомные стили для теней и переходов -->
+    <style>
+        .card-hover {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Хедер -->
+    <header class="gradient-bg text-white py-12 px-4 shadow-lg">
+        <div class="container mx-auto max-w-6xl text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">PWA & статические приложения</h1>
+            <p class="text-xl md:text-2xl opacity-90">Мобильные обёртки для сайтов, которые работают без сторов</p>
+            <p class="mt-6 text-lg max-w-2xl mx-auto">Установка через QR-код, push-уведомления, офлайн-режим. Никаких $99/год и модераций Apple.</p>
+            <div class="mt-8">
+                <a href="#projects" class="bg-white text-blue-800 px-6 py-3 rounded-full font-semibold shadow-md hover:shadow-xl transition">Смотреть проекты</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Секция "О себе / Услуги" -->
+    <section class="py-16 px-4 bg-white">
+        <div class="container mx-auto max-w-6xl">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Независимость от Google и Apple</h2>
+                    <p class="text-gray-600 text-lg leading-relaxed">Я создаю прогрессивные веб-приложения (PWA), которые работают на любом устройстве и устанавливаются на домашний экран за 2 клика. Это позволяет вашему бизнесу иметь мобильное приложение без ежегодных платежей, риска блокировки и сложной публикации в сторах.</p>
+                    <ul class="mt-6 space-y-3">
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-500 w-6"></i><span class="ml-3">Легкая смена сайта — просто замените URL</span></li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-500 w-6"></i><span class="ml-3">Push-уведомления, геолокация, оплаты (Apple Pay, Google Pay)</span></li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-500 w-6"></i><span class="ml-3">Код полностью ваш — выгружаю на GitHub</span></li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-500 w-6"></i><span class="ml-3">Работает на iOS 16.4+ и всех Android</span></li>
+                    </ul>
+                </div>
+                <div class="bg-gray-100 rounded-xl p-6 shadow-inner text-center">
+                    <i class="fas fa-qrcode text-6xl text-blue-600 mb-4"></i>
+                    <p class="text-gray-700">Пример установки по QR-коду</p>
+                    <div class="bg-white inline-block p-2 rounded-lg mt-2">
+                        <canvas id="demoQR" width="150" height="150"></canvas>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-2">(демо-QR для одного из проектов)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция проектов -->
+    <section id="projects" class="py-16 px-4 bg-gray-50">
+        <div class="container mx-auto max-w-6xl">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Реализованные проекты</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="projectsGrid">
+                <!-- Карточки будут добавлены через JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер + форма заказа -->
+    <footer class="bg-gray-800 text-white py-12 px-4">
+        <div class="container mx-auto max-w-6xl text-center">
+            <h3 class="text-2xl font-bold mb-4">Нужно приложение для вашего бизнеса?</h3>
+            <p class="text-gray-300 mb-6">Свяжитесь со мной напрямую через мессенджер или email</p>
+            <div class="flex justify-center space-x-6">
+                <a href="https://t.me/ваш_логин" target="_blank" class="bg-blue-500 hover:bg-blue-600 p-3 rounded-full transition"><i class="fab fa-telegram-plane text-2xl"></i></a>
+                <a href="mailto:ваша_почта@example.com" class="bg-gray-600 hover:bg-gray-500 p-3 rounded-full transition"><i class="fas fa-envelope text-2xl"></i></a>
+                <a href="https://github.com/vf12776-ux" target="_blank" class="bg-gray-900 hover:bg-black p-3 rounded-full transition"><i class="fab fa-github text-2xl"></i></a>
+            </div>
+            <p class="text-gray-500 text-sm mt-8">© 2026 — Все решения работают без сторов и скрытых платежей</p>
+        </div>
+    </footer>
+
+    <script>
+        // Генерация QR-кода (простая библиотека, встроим через CDN)
+        const qrScript = document.createElement('script');
+        qrScript.src = 'https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js';
+        qrScript.onload = () => {
+            new QRCode(document.getElementById("demoQR"), {
+                text: "https://vf12776-ux.github.io/remont-pro/",
+                width: 150,
+                height: 150
+            });
+        };
+        document.head.appendChild(qrScript);
+
+        // Данные проектов (добавьте свои)
+        const projects = [
+            {
+                title: "Ремонт-Про (калькулятор)",
+                description: "PWA с калькулятором ремонта, офлайн-режим, админ-панель для цен",
+                demoUrl: "https://vf12776-ux.github.io/remont-pro/",
+                repoUrl: "https://github.com/vf12776-ux/remont-pro",
+                tech: "HTML/CSS/JS, LocalStorage",
+                imagePlaceholder: "🔧"
+            },
+            {
+                title: "Автор — бронирование (Avtor-App-Simple)",
+                description: "Форма заказа услуг, имитация оплаты, выбор города",
+                demoUrl: "https://vf12776-ux.github.io/Avtor-App-Simple/",
+                repoUrl: "https://github.com/vf12776-ux/Avtor-App-Simple",
+                tech: "Tailwind, JS, PWA manifest",
+                imagePlaceholder: "📅"
+            },
+            {
+                title: "Горбуфет (сеть кафе)",
+                description: "Меню и доставка, PWA-обёртка для TapLink",
+                demoUrl: "https://gorbufet-pwa.onrender.com",
+                repoUrl: "https://github.com/vf12776-ux/gorbufet-pwa",
+                tech: "PWA, Service Worker",
+                imagePlaceholder: "☕"
+            },
+            {
+                title: "Дети Света (магазин одежды)",
+                description: "Лендинг-приложение с корзиной и уведомлениями",
+                demoUrl: "https://vf12776-ux.github.io/detisveta-pwa/",
+                repoUrl: "https://github.com/vf12776-ux/detisveta-pwa",
+                tech: "HTML/CSS/JS, Push API",
+                imagePlaceholder: "👕"
+            },
+            {
+                title: "China Business Landing",
+                description: "Адаптивный лендинг с анимацией, шаблон для бизнеса",
+                demoUrl: "https://vf12776-ux.github.io/china-busines-landing/",
+                repoUrl: "https://github.com/vf12776-ux/china-busines-landing",
+                tech: "HTML/CSS, Flex/Grid",
+                imagePlaceholder: "🇨🇳"
+            },
+            {
+                title: "P2P Messanger (Go + WebRTC)",
+                description: "Децентрализованный мессенджер для бизнеса (в разработке)",
+                demoUrl: "https://p2p-messenger-go.onrender.com",
+                repoUrl: "https://github.com/vf12776-ux/p2p-messenger-go",
+                tech: "Go, WebSockets, PWA",
+                imagePlaceholder: "💬"
+            }
+        ];
+
+        // Рендер карточек
+        const grid = document.getElementById('projectsGrid');
+        projects.forEach(proj => {
+            const card = document.createElement('div');
+            card.className = 'bg-white rounded-xl shadow-md overflow-hidden card-hover transition';
+            card.innerHTML = `
+                <div class="p-6">
+                    <div class="text-5xl mb-4">${proj.imagePlaceholder}</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">${proj.title}</h3>
+                    <p class="text-gray-600 text-sm mb-3">${proj.description}</p>
+                    <p class="text-xs text-gray-400 mb-4">${proj.tech}</p>
+                    <div class="flex justify-between items-center">
+                        <a href="${proj.demoUrl}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">Демо</a>
+                        <a href="${proj.repoUrl}" target="_blank" class="text-gray-600 hover:text-gray-900"><i class="fab fa-github text-xl"></i></a>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    </script>
+    <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/my-pwa-portfolio/sw.js');
+  }
+</script>
+</body>
+</html>
