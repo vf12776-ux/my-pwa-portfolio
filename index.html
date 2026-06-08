@@ -321,5 +321,46 @@
         }
     })();
 </script>
+<script>
+    let newWorker;
+    function showUpdateNotification() {
+        const notification = document.createElement('div');
+        notification.innerHTML = 'Доступна новая версия. Нажмите "Обновить"';
+        notification.style.position = 'fixed';
+        notification.style.bottom = '70px';
+        notification.style.right = '20px';
+        notification.style.backgroundColor = '#000';
+        notification.style.color = '#fff';
+        notification.style.padding = '10px 20px';
+        notification.style.borderRadius = '30px';
+        notification.style.zIndex = '9999';
+        notification.style.fontSize = '14px';
+        const btn = document.createElement('button');
+        btn.innerText = 'Обновить';
+        btn.style.marginLeft = '10px';
+        btn.style.padding = '4px 12px';
+        btn.style.borderRadius = '20px';
+        btn.style.border = 'none';
+        btn.onclick = () => {
+            newWorker.postMessage({ action: 'skipWaiting' });
+            window.location.reload();
+        };
+        notification.appendChild(btn);
+        document.body.appendChild(notification);
+    }
+
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/my-pwa-portfolio/sw.js').then(reg => {
+            reg.onupdatefound = () => {
+                newWorker = reg.installing;
+                newWorker.onstatechange = () => {
+                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                        showUpdateNotification();
+                    }
+                };
+            };
+        });
+    }
+</script>
 </body>
 </html>
