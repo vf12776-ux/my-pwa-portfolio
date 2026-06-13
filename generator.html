@@ -8,9 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <style>
-        .gradient-bg {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-        }
+        .gradient-bg { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); }
     </style>
 </head>
 <body class="bg-gray-50 font-sans">
@@ -24,34 +22,34 @@
     <div class="container mx-auto max-w-2xl px-4 py-10">
         <div class="bg-white rounded-xl shadow-md p-6 md:p-8">
             <h2 class="text-2xl font-bold text-gray-800 mb-4">Введите адрес вашего сайта</h2>
-            <p class="text-gray-600 mb-6">Создайте установочный PWA-пакет. После скачивания вы получите ZIP-архив с файлами, которые нужно загрузить на ваш хостинг.</p>
-            
             <form id="pwaForm">
                 <div class="mb-5">
                     <label class="block text-gray-700 font-semibold mb-2">URL сайта (c https://):</label>
-                    <input type="url" id="siteUrl" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="https://мой-сайт.ru" required>
-                    <p class="text-sm text-gray-500 mt-1">Например, https://ваш-сайт.ru</p>
+                    <input type="url" id="siteUrl" class="w-full border border-gray-300 rounded-lg px-4 py-2" placeholder="https://мой-сайт.ru" required>
                 </div>
                 <div class="mb-5">
                     <label class="block text-gray-700 font-semibold mb-2">Название приложения:</label>
-                    <input type="text" id="appName" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Моё приложение" value="Моё PWA">
+                    <input type="text" id="appName" class="w-full border border-gray-300 rounded-lg px-4 py-2" placeholder="Моё приложение" value="Моё PWA">
                 </div>
                 <div class="mb-5">
-                    <label class="block text-gray-700 font-semibold mb-2">Цвет темы (опционально):</label>
+                    <label class="block text-gray-700 font-semibold mb-2">Цвет темы:</label>
                     <input type="color" id="themeColor" class="w-20 h-10 border border-gray-300 rounded" value="#1e3c72">
                 </div>
                 <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition">Скачать PWA-пакет</button>
             </form>
             <div id="status" class="mt-4 text-center text-gray-600 hidden"></div>
         </div>
-        <div class="mt-8 text-center text-gray-500 text-sm">
-            <p>Получите ZIP-архив с файлами: index.html, manifest.json, sw.js. Загрузите их в корень вашего сайта.</p>
-            <p class="mt-2">После этого ваш сайт станет PWA — его можно будет установить на телефон через браузер.</p>
+        <div class="mt-8 bg-yellow-50 border-l-4 border-yellow-400 p-4 text-sm text-yellow-800">
+            <p class="font-bold">📦 Как пользоваться:</p>
+            <p>1. Скачайте ZIP и распакуйте в отдельную папку.<br>
+            2. <strong>Запустите файл <code>start.bat</code> (Windows) или <code>start.command</code> (macOS) или <code>start.sh</code> (Linux).</strong><br>
+            3. Откроется браузер с вашим приложением. Нажмите «Установить» (в адресной строке или кнопка внизу).<br>
+            4. После установки приложение будет работать локально. Чтобы перенести на свой сайт – залейте файлы в корень вашего хостинга.</p>
+            <p class="mt-2 text-xs">⚠️ Для работы локального сервера нужен Python (установлен на большинстве систем). Если его нет – скачайте с python.org.</p>
         </div>
     </div>
 
     <script>
-        // Шаблоны файлов
         const getIndexHtml = (siteUrl, appName) => `<!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -60,10 +58,7 @@
     <title>${escapeHtml(appName)}</title>
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="https://placehold.co/192x192?text=PWA">
-    <style>
-        body { margin: 0; padding: 0; overflow: hidden; }
-        iframe { width: 100vw; height: 100vh; border: none; }
-    </style>
+    <style>body{margin:0;padding:0;overflow:hidden;} iframe{width:100vw;height:100vh;border:none;}</style>
 </head>
 <body>
     <iframe src="${escapeHtml(siteUrl)}" allow="geolocation; microphone; camera; payment"></iframe>
@@ -76,7 +71,6 @@
 </html>`;
 
         const getManifest = (appName, themeColor, startUrl) => {
-            // Извлекаем корневой URL (scope)
             const scope = new URL(startUrl).origin + '/';
             return {
                 name: appName,
@@ -87,27 +81,60 @@
                 theme_color: themeColor,
                 background_color: "#ffffff",
                 icons: [
-                    {
-                        src: "https://placehold.co/192x192?text=PWA",
-                        sizes: "192x192",
-                        type: "image/png",
-                        purpose: "any maskable"
-                    },
-                    {
-                        src: "https://placehold.co/512x512?text=PWA",
-                        sizes: "512x512",
-                        type: "image/png"
-                    }
+                    { src: "https://placehold.co/192x192?text=PWA", sizes: "192x192", type: "image/png", purpose: "any maskable" },
+                    { src: "https://placehold.co/512x512?text=PWA", sizes: "512x512", type: "image/png" }
                 ]
             };
         };
 
-        const getSwJs = () => `// Минимальный Service Worker для установки PWA
-self.addEventListener('fetch', event => {
-    // Просто передаём запрос в сеть – вы можете сами настроить кэширование
-    event.respondWith(fetch(event.request));
-});
-`;
+        const getSwJs = () => `self.addEventListener('fetch', event => { event.respondWith(fetch(event.request)); });`;
+
+        // Скрипт start.bat для Windows
+        const getStartBat = () => `@echo off
+echo Checking Python...
+python --version >nul 2>&1
+if errorlevel 1 (
+    echo Python not found. Please install Python from https://python.org
+    pause
+    exit /b
+)
+echo Starting server on port 8080...
+start http://localhost:8080
+python -m http.server 8080
+pause`;
+
+        // start.command для macOS (запускается двойным щелчком, требует прав на выполнение)
+        const getStartCommand = () => `#!/bin/bash
+cd "$(dirname "$0")"
+if ! command -v python3 &> /dev/null; then
+    echo "Python not found. Please install Python from https://python.org"
+    read -p "Press Enter to exit"
+    exit 1
+fi
+open http://localhost:8080
+python3 -m http.server 8080
+read -p "Press Enter to exit"`;
+
+        // start.sh для Linux
+        const getStartSh = () => `#!/bin/bash
+cd "$(dirname "$0")"
+if ! command -v python3 &> /dev/null; then
+    echo "Python not found. Please install Python"
+    read -p "Press Enter to exit"
+    exit 1
+fi
+xdg-open http://localhost:8080 2>/dev/null || sensible-browser http://localhost:8080 || echo "Open http://localhost:8080 in your browser"
+python3 -m http.server 8080`;
+
+        // README.txt
+        const getReadme = () => `Как запустить PWA локально:
+- Windows: дважды кликните start.bat
+- macOS: дважды кликните start.command (если не запускается, выполните в терминале: chmod +x start.command)
+- Linux: запустите в терминале: chmod +x start.sh && ./start.sh
+
+После запуска откроется браузер с вашим приложением. Нажмите кнопку "Установить" (в адресной строке или всплывающая).
+
+Чтобы залить приложение на свой сайт: скопируйте все файлы (index.html, manifest.json, sw.js) в корень вашего сайта (например, через FTP). После этого ваш сайт станет PWA.`;
 
         function escapeHtml(str) {
             return str.replace(/[&<>]/g, function(m) {
@@ -115,8 +142,6 @@ self.addEventListener('fetch', event => {
                 if (m === '<') return '&lt;';
                 if (m === '>') return '&gt;';
                 return m;
-            }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-                return c;
             });
         }
 
@@ -125,52 +150,45 @@ self.addEventListener('fetch', event => {
             const siteUrl = document.getElementById('siteUrl').value.trim();
             let appName = document.getElementById('appName').value.trim();
             const themeColor = document.getElementById('themeColor').value;
-            
-            if (!siteUrl) {
-                alert('Введите URL сайта');
-                return;
-            }
-            if (!appName) appName = "Моё PWA";
-            
-            // Валидация URL
+
+            if (!siteUrl) { alert('Введите URL'); return; }
+            if (!appName) appName = 'Моё PWA';
             let validUrl;
             try {
                 validUrl = new URL(siteUrl);
-                if (!validUrl.protocol.startsWith('https')) {
-                    alert('Используйте HTTPS (сайт должен быть на защищённом протоколе)');
-                    return;
-                }
+                if (validUrl.protocol !== 'https:') throw new Error();
             } catch(e) {
-                alert('Некорректный URL. Убедитесь, что он начинается с https://');
+                alert('Используйте HTTPS (сайт должен быть на защищённом протоколе)');
                 return;
             }
-            
+
             const statusDiv = document.getElementById('status');
             statusDiv.classList.remove('hidden');
             statusDiv.innerHTML = 'Генерация файлов...';
-            
+
             try {
-                // Генерируем содержимое
                 const indexHtml = getIndexHtml(validUrl.href, appName);
                 const manifestObj = getManifest(appName, themeColor, validUrl.href);
                 const manifestJson = JSON.stringify(manifestObj, null, 2);
                 const swJs = getSwJs();
-                
-                // Создаём ZIP
+
                 const zip = new JSZip();
                 zip.file("index.html", indexHtml);
                 zip.file("manifest.json", manifestJson);
                 zip.file("sw.js", swJs);
-                
-                // Создаём ZIP-файл и скачиваем
+                zip.file("start.bat", getStartBat());
+                zip.file("start.command", getStartCommand());
+                zip.file("start.sh", getStartSh());
+                zip.file("README.txt", getReadme());
+
                 const content = await zip.generateAsync({ type: "blob" });
                 saveAs(content, `${appName.replace(/[^a-z0-9]/gi, '_')}_pwa.zip`);
-                
-                statusDiv.innerHTML = '✅ Готово! Файл скачан. Распакуйте и загрузите на ваш хостинг.';
-                setTimeout(() => statusDiv.classList.add('hidden'), 5000);
+
+                statusDiv.innerHTML = '✅ Готово! ZIP скачан. Распакуйте и запустите start.bat / start.command / start.sh';
+                setTimeout(() => statusDiv.classList.add('hidden'), 8000);
             } catch(err) {
+                statusDiv.innerHTML = '❌ Ошибка. Попробуйте ещё раз.';
                 console.error(err);
-                statusDiv.innerHTML = '❌ Ошибка при генерации. Попробуйте ещё раз.';
             }
         });
     </script>
