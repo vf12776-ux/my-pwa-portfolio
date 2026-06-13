@@ -1,16 +1,18 @@
-const CACHE_NAME = 'my-pwa-cache-v3'; // при каждом изменении сайта меняйте v1 на v2 и т.д.
+const CACHE_NAME = 'my-pwa-cache-v4';  // меняйте цифру при каждом обновлении сайта
+const urlsToCache = [
+    '/my-pwa-portfolio/',
+    '/my-pwa-portfolio/index.html',
+    '/my-pwa-portfolio/manifest.json',
+    '/my-pwa-portfolio/icon-192.png',
+    '/my-pwa-portfolio/icon-512.png',
+    '/my-pwa-portfolio/qrcode.png'   // добавьте, если файл так называется
+];
 
 self.addEventListener('install', event => {
     event.waitUntil(
-        caches.open(CACHE_NAME).then(cache => cache.addAll([
-            '/my-pwa-portfolio/',
-            '/my-pwa-portfolio/index.html',
-            '/my-pwa-portfolio/manifest.json',
-            '/my-pwa-portfolio/icon-192.png',
-            '/my-pwa-portfolio/icon-512.png'
-        ]))
+        caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
     );
-    self.skipWaiting(); // заставляет активироваться новую версию сразу
+    self.skipWaiting(); // немедленно активировать новую версию
 });
 
 self.addEventListener('activate', event => {
@@ -19,7 +21,7 @@ self.addEventListener('activate', event => {
             keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
         ))
     );
-    self.clients.claim();
+    self.clients.claim(); // сразу перехватить контроль над страницами
 });
 
 self.addEventListener('fetch', event => {
