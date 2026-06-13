@@ -1,4 +1,4 @@
-const CACHE_NAME = 'my-pwa-cache-v1'; // при каждом изменении сайта меняйте v1 на v2 и т.д.
+const CACHE_NAME = 'my-pwa-cache-v3'; // при каждом изменении сайта меняйте v1 на v2 и т.д.
 
 self.addEventListener('install', event => {
     event.waitUntil(
