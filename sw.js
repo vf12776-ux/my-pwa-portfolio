@@ -1,4 +1,4 @@
-const CACHE_NAME = 'my-pwa-cache-v5';  // меняйте цифру при каждом обновлении сайта
+const CACHE_NAME = 'my-pwa-cache-v6';  // меняйте цифру при каждом обновлении сайта
 const urlsToCache = [
     '/my-pwa-portfolio/',
     '/my-pwa-portfolio/index.html',
