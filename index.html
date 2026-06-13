@@ -9,7 +9,6 @@
     <link rel="icon" type="image/png" sizes="16x16" href="./icon-192.png">
     <link rel="shortcut icon" href="./icon-192.png">
     <link rel="apple-touch-icon" href="./icon-192.png">
-    <!-- Tailwind CSS + Font Awesome -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -23,7 +22,14 @@
         .gradient-bg {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
         }
-        /* Стили для кнопок установки */
+        .filter-btn {
+            transition: all 0.2s;
+        }
+        .filter-btn.active {
+            background-color: #1e3c72;
+            color: white;
+        }
+        /* Кнопки установки */
         .install-buttons {
             position: fixed;
             bottom: 20px;
@@ -50,7 +56,6 @@
         .install-btn:active { transform: scale(0.96); }
         .install-btn.android { background: #3DDC84; color: #000; }
         .install-btn.ios { background: #000; color: white; }
-        /* Модальное окно для iOS */
         .modal {
             display: none;
             position: fixed;
@@ -121,9 +126,18 @@
         </div>
     </section>
 
+    <!-- Секция проектов с фильтрацией -->
     <section id="projects" class="py-16 px-4 bg-gray-50">
         <div class="container mx-auto max-w-6xl">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Реализованные проекты</h2>
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Реализованные проекты</h2>
+            <!-- Кнопки фильтрации -->
+            <div class="flex flex-wrap justify-center gap-3 mb-10">
+                <button data-filter="all" class="filter-btn active bg-blue-600 text-white px-5 py-2 rounded-full font-semibold shadow hover:bg-blue-700 transition">Все</button>
+                <button data-filter="mac" class="filter-btn bg-gray-200 text-gray-800 px-5 py-2 rounded-full font-semibold hover:bg-gray-300 transition">💻 Софт для Mac</button>
+                <button data-filter="mobile" class="filter-btn bg-gray-200 text-gray-800 px-5 py-2 rounded-full font-semibold hover:bg-gray-300 transition">📱 Мобильные приложения</button>
+                <button data-filter="hybrid" class="filter-btn bg-gray-200 text-gray-800 px-5 py-2 rounded-full font-semibold hover:bg-gray-300 transition">🌐 Сайт/приложение 2в1</button>
+            </div>
+            <!-- Сетка проектов -->
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="projectsGrid"></div>
         </div>
     </section>
@@ -151,7 +165,7 @@
         </button>
     </div>
 
-    <!-- Модальное окно для iOS -->
+    <!-- Модалка для iOS -->
     <div id="iosModal" class="modal">
         <div class="modal-content">
             <h3>Установка на iPhone/iPad</h3>
@@ -177,34 +191,73 @@
         };
         document.head.appendChild(qrScript);
 
-        // Данные проектов
+        // Данные проектов с категориями
         const projects = [
-            { title: "Ремонт-Про (калькулятор)", description: "PWA с калькулятором ремонта, офлайн-режим, админ-панель для цен", demoUrl: "https://vf12776-ux.github.io/remont-pro/", repoUrl: "https://github.com/vf12776-ux/remont-pro", tech: "HTML/CSS/JS, LocalStorage", imagePlaceholder: "🔧" },
-            { title: "Автор — бронирование (Avtor-App-Simple)", description: "Форма заказа услуг, имитация оплаты, выбор города", demoUrl: "https://vf12776-ux.github.io/Avtor-App-Simple/", repoUrl: "https://github.com/vf12776-ux/Avtor-App-Simple", tech: "Tailwind, JS, PWA manifest", imagePlaceholder: "📅" },
-            { title: "Горбуфет (сеть кафе)", description: "Меню и доставка, PWA-обёртка для TapLink", demoUrl: "https://gorbufet-pwa.onrender.com", repoUrl: "https://github.com/vf12776-ux/gorbufet-pwa", tech: "PWA, Service Worker", imagePlaceholder: "☕" },
-            { title: "Дети Света (магазин одежды)", description: "Лендинг-приложение с корзиной и уведомлениями", demoUrl: "https://vf12776-ux.github.io/detisveta-pwa/", repoUrl: "https://github.com/vf12776-ux/detisveta-pwa", tech: "HTML/CSS/JS, Push API", imagePlaceholder: "👕" },
-            { title: "China Business Landing", description: "Адаптивный лендинг с анимацией, шаблон для бизнеса", demoUrl: "https://vf12776-ux.github.io/china-busines-landing/", repoUrl: "https://github.com/vf12776-ux/china-busines-landing", tech: "HTML/CSS, Flex/Grid", imagePlaceholder: "🇨🇳" },
-            { title: "P2P Messanger (Go + WebRTC)", description: "Децентрализованный мессенджер для бизнеса (в разработке)", demoUrl: "https://p2p-messenger-go.onrender.com", repoUrl: "https://github.com/vf12776-ux/p2p-messenger-go", tech: "Go, WebSockets, PWA", imagePlaceholder: "💬" }
+            // macOS софт (добавлен демо-пример, вы замените своими)
+            { title: "Cleaner Lite для Mac", description: "Очистка системы, удаление кэша, управление автозагрузкой", demoUrl: "#", repoUrl: "#", tech: "Swift, SwiftUI", imagePlaceholder: "🧹", category: "mac" },
+            { title: "Менеджер окон", description: "Быстрое перемещение и изменение размеров окон с клавиатуры", demoUrl: "#", repoUrl: "#", tech: "Objective-C, macOS", imagePlaceholder: "🪟", category: "mac" },
+            // Мобильные приложения (PWA, которые устанавливаются на телефон)
+            { title: "Ремонт-Про (калькулятор)", description: "PWA с калькулятором ремонта, офлайн-режим, админ-панель для цен", demoUrl: "https://vf12776-ux.github.io/remont-pro/", repoUrl: "https://github.com/vf12776-ux/remont-pro", tech: "HTML/CSS/JS, LocalStorage", imagePlaceholder: "🔧", category: "mobile" },
+            { title: "Автор — бронирование", description: "Форма заказа услуг, имитация оплаты, выбор города", demoUrl: "https://vf12776-ux.github.io/Avtor-App-Simple/", repoUrl: "https://github.com/vf12776-ux/Avtor-App-Simple", tech: "Tailwind, JS, PWA", imagePlaceholder: "📅", category: "mobile" },
+            { title: "Дети Света (магазин одежды)", description: "Лендинг-приложение с корзиной и уведомлениями", demoUrl: "https://vf12776-ux.github.io/detisveta-pwa/", repoUrl: "https://github.com/vf12776-ux/detisveta-pwa", tech: "HTML/CSS/JS, Push API", imagePlaceholder: "👕", category: "mobile" },
+            // Сайт/приложение 2в1 (гибриды)
+            { title: "Горбуфет (сеть кафе)", description: "Меню и доставка, PWA-обёртка для TapLink", demoUrl: "https://gorbufet-pwa.onrender.com", repoUrl: "https://github.com/vf12776-ux/gorbufet-pwa", tech: "PWA, Service Worker", imagePlaceholder: "☕", category: "hybrid" },
+            { title: "China Business Landing", description: "Адаптивный лендинг с анимацией, шаблон для бизнеса", demoUrl: "https://vf12776-ux.github.io/china-busines-landing/", repoUrl: "https://github.com/vf12776-ux/china-busines-landing", tech: "HTML/CSS, Flex/Grid", imagePlaceholder: "🇨🇳", category: "hybrid" },
+            { title: "P2P Messanger (Go + WebRTC)", description: "Децентрализованный мессенджер для бизнеса", demoUrl: "https://p2p-messenger-go.onrender.com", repoUrl: "https://github.com/vf12776-ux/p2p-messenger-go", tech: "Go, WebSockets, PWA", imagePlaceholder: "💬", category: "hybrid" }
         ];
 
-        const grid = document.getElementById('projectsGrid');
-        projects.forEach(proj => {
-            const card = document.createElement('div');
-            card.className = 'bg-white rounded-xl shadow-md overflow-hidden card-hover transition';
-            card.innerHTML = `
-                <div class="p-6">
-                    <div class="text-5xl mb-4">${proj.imagePlaceholder}</div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">${proj.title}</h3>
-                    <p class="text-gray-600 text-sm mb-3">${proj.description}</p>
-                    <p class="text-xs text-gray-400 mb-4">${proj.tech}</p>
-                    <div class="flex justify-between items-center">
-                        <a href="${proj.demoUrl}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">Демо</a>
-                        <a href="${proj.repoUrl}" target="_blank" class="text-gray-600 hover:text-gray-900"><i class="fab fa-github text-xl"></i></a>
+        // Функция рендера карточек с учётом фильтра
+        function renderProjects(filter) {
+            const grid = document.getElementById('projectsGrid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            const filtered = filter === 'all' ? projects : projects.filter(p => p.category === filter);
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="col-span-full text-center py-10 text-gray-500">Проектов в этой категории пока нет. Скоро добавлю.</div>';
+                return;
+            }
+            filtered.forEach(proj => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-xl shadow-md overflow-hidden card-hover transition';
+                card.innerHTML = `
+                    <div class="p-6">
+                        <div class="text-5xl mb-4">${proj.imagePlaceholder}</div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">${proj.title}</h3>
+                        <p class="text-gray-600 text-sm mb-3">${proj.description}</p>
+                        <p class="text-xs text-gray-400 mb-4">${proj.tech}</p>
+                        <div class="flex justify-between items-center">
+                            <a href="${proj.demoUrl}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">Демо</a>
+                            <a href="${proj.repoUrl}" target="_blank" class="text-gray-600 hover:text-gray-900"><i class="fab fa-github text-xl"></i></a>
+                        </div>
                     </div>
-                </div>
-            `;
-            grid.appendChild(card);
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Навешиваем фильтры
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        let currentFilter = 'all';
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const filter = btn.getAttribute('data-filter');
+                if (!filter) return;
+                currentFilter = filter;
+                filterBtns.forEach(b => b.classList.remove('active', 'bg-blue-600', 'text-white'));
+                btn.classList.add('active', 'bg-blue-600', 'text-white');
+                // убираем лишние классы у остальных кнопок, но они уже будут серыми
+                filterBtns.forEach(b => {
+                    if (!b.classList.contains('active')) {
+                        b.classList.remove('bg-blue-600', 'text-white');
+                        b.classList.add('bg-gray-200', 'text-gray-800');
+                    }
+                });
+                renderProjects(filter);
+            });
         });
+
+        // Инициализация: показать все проекты
+        renderProjects('all');
     </script>
 
     <!-- Регистрация Service Worker -->
@@ -214,70 +267,52 @@
         }
     </script>
 
-    <!-- Скрипт установки с кнопками и стандартным окном -->
+    <!-- Скрипт установки (стандартное окно + кастомные кнопки, с проверкой standalone) -->
     <script>
         (function() {
-            // Проверка, установлено ли уже приложение
             const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
             const installContainer = document.getElementById('installButtons');
-            
             if (isStandalone) {
                 if (installContainer) installContainer.style.display = 'none';
                 return;
             }
-
             let deferredPrompt = null;
             const btnAndroid = document.getElementById('btnAndroid');
             const btnIos = document.getElementById('btnIos');
             const iosModal = document.getElementById('iosModal');
             const closeModal = document.querySelector('.close-modal');
-
-            // Показываем контейнер кнопок
             if (installContainer) installContainer.style.display = 'flex';
-
-            // Слушаем событие beforeinstallprompt, НЕ вызывая preventDefault
             window.addEventListener('beforeinstallprompt', (e) => {
-                deferredPrompt = e;  // сохраняем событие
+                deferredPrompt = e;
                 if (btnAndroid) btnAndroid.style.display = 'flex';
-                // Стандартное окно браузера появится само, мы его не блокируем
             });
-
-            // Если через 1 секунду событие не пришло, скрываем кнопку Android (например, на iOS)
             setTimeout(() => {
                 if (deferredPrompt === null && btnAndroid && btnAndroid.style.display !== 'none') {
                     btnAndroid.style.display = 'none';
                 }
             }, 1000);
-
-            // Обработчик кастомной кнопки Android
             if (btnAndroid) {
                 btnAndroid.addEventListener('click', async () => {
                     if (!deferredPrompt) return;
-                    deferredPrompt.prompt();  // показываем стандартное окно
+                    deferredPrompt.prompt();
                     const { outcome } = await deferredPrompt.userChoice;
                     if (outcome === 'accepted' && installContainer) {
-                        installContainer.style.display = 'none';  // скрываем кнопки после установки
+                        installContainer.style.display = 'none';
                     }
                     deferredPrompt = null;
                 });
             }
-
-            // Обработчик кнопки iOS (показывает модалку с инструкцией)
             if (btnIos) {
                 btnIos.addEventListener('click', () => {
                     if (iosModal) iosModal.style.display = 'flex';
                 });
             }
-
-            // Закрытие модалки
             if (closeModal) {
                 closeModal.onclick = () => { if (iosModal) iosModal.style.display = 'none'; };
             }
             window.onclick = (event) => {
                 if (event.target === iosModal && iosModal) iosModal.style.display = 'none';
             };
-
-            // На iOS скрываем кнопку Android, показываем только кнопку с яблоком
             const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
             if (isIos) {
                 if (btnAndroid) btnAndroid.style.display = 'none';
@@ -286,12 +321,10 @@
         })();
     </script>
 
-    <!-- Баннер для WebView (QR-сканер) -->
+    <!-- Баннер для WebView -->
     <script>
         (function() {
-            if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
-                return;
-            }
+            if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) return;
             const ua = navigator.userAgent;
             const isWebView = (ua.indexOf('; wv)') > -1) || (/iPhone|iPad|iPod/.test(ua) && !window.safari && !window.webkit?.messageHandlers);
             if (isWebView) {
