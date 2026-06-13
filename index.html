@@ -118,8 +118,8 @@
                     <i class="fas fa-qrcode text-6xl text-blue-600 mb-4"></i>
                     <p class="text-gray-700">Пример установки по QR-коду</p>
                     <div class="bg-white inline-block p-2 rounded-lg mt-2">
-                        <canvas id="demoQR" width="150" height="150"></canvas>
-                    </div>
+    <img src="qrcode.png" width="150" height="150" alt="QR-код для установки приложения">
+</div>
                     <p class="text-sm text-gray-500 mt-2">(демо-QR для одного из проектов)</p>
                 </div>
             </div>
@@ -179,18 +179,7 @@
     </div>
 
     <script>
-        // QR-код
-        const qrScript = document.createElement('script');
-        qrScript.src = 'https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js';
-        qrScript.onload = () => {
-            new QRCode(document.getElementById("demoQR"), {
-                text: "https://vf12776-ux.github.io/remont-pro/",
-                width: 150,
-                height: 150
-            });
-        };
-        document.head.appendChild(qrScript);
-
+        
         // Данные проектов с категориями
         const projects = [
             // macOS софт (добавлен демо-пример, вы замените своими)
