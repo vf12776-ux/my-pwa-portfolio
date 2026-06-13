@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генератор PWA для вашего сайта – bAgota Soft</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <div class="gradient-bg text-white py-12 px-4 shadow-lg">
+        <div class="container mx-auto max-w-2xl text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Генератор PWA</h1>
+            <p class="text-xl opacity-90">Упакуйте ваш сайт в мобильное приложение за 1 минуту</p>
+        </div>
+    </div>
+
+    <div class="container mx-auto max-w-2xl px-4 py-10">
+        <div class="bg-white rounded-xl shadow-md p-6 md:p-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Введите адрес вашего сайта</h2>
+            <p class="text-gray-600 mb-6">Создайте установочный PWA-пакет. После скачивания вы получите ZIP-архив с файлами, которые нужно загрузить на ваш хостинг.</p>
+            
+            <form id="pwaForm">
+                <div class="mb-5">
+                    <label class="block text-gray-700 font-semibold mb-2">URL сайта (c https://):</label>
+                    <input type="url" id="siteUrl" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="https://мой-сайт.ru" required>
+                    <p class="text-sm text-gray-500 mt-1">Например, https://ваш-сайт.ru</p>
+                </div>
+                <div class="mb-5">
+                    <label class="block text-gray-700 font-semibold mb-2">Название приложения:</label>
+                    <input type="text" id="appName" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Моё приложение" value="Моё PWA">
+                </div>
+                <div class="mb-5">
+                    <label class="block text-gray-700 font-semibold mb-2">Цвет темы (опционально):</label>
+                    <input type="color" id="themeColor" class="w-20 h-10 border border-gray-300 rounded" value="#1e3c72">
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition">Скачать PWA-пакет</button>
+            </form>
+            <div id="status" class="mt-4 text-center text-gray-600 hidden"></div>
+        </div>
+        <div class="mt-8 text-center text-gray-500 text-sm">
+            <p>Получите ZIP-архив с файлами: index.html, manifest.json, sw.js. Загрузите их в корень вашего сайта.</p>
+            <p class="mt-2">После этого ваш сайт станет PWA — его можно будет установить на телефон через браузер.</p>
+        </div>
+    </div>
+
+    <script>
+        // Шаблоны файлов
+        const getIndexHtml = (siteUrl, appName) => `<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>${escapeHtml(appName)}</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="https://placehold.co/192x192?text=PWA">
+    <style>
+        body { margin: 0; padding: 0; overflow: hidden; }
+        iframe { width: 100vw; height: 100vh; border: none; }
+    </style>
+</head>
+<body>
+    <iframe src="${escapeHtml(siteUrl)}" allow="geolocation; microphone; camera; payment"></iframe>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    <\/script>
+</body>
+</html>`;
+
+        const getManifest = (appName, themeColor, startUrl) => {
+            // Извлекаем корневой URL (scope)
+            const scope = new URL(startUrl).origin + '/';
+            return {
+                name: appName,
+                short_name: appName.substring(0, 12),
+                start_url: startUrl,
+                scope: scope,
+                display: "standalone",
+                theme_color: themeColor,
+                background_color: "#ffffff",
+                icons: [
+                    {
+                        src: "https://placehold.co/192x192?text=PWA",
+                        sizes: "192x192",
+                        type: "image/png",
+                        purpose: "any maskable"
+                    },
+                    {
+                        src: "https://placehold.co/512x512?text=PWA",
+                        sizes: "512x512",
+                        type: "image/png"
+                    }
+                ]
+            };
+        };
+
+        const getSwJs = () => `// Минимальный Service Worker для установки PWA
+self.addEventListener('fetch', event => {
+    // Просто передаём запрос в сеть – вы можете сами настроить кэширование
+    event.respondWith(fetch(event.request));
+});
+`;
+
+        function escapeHtml(str) {
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+                return c;
+            });
+        }
+
+        document.getElementById('pwaForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const siteUrl = document.getElementById('siteUrl').value.trim();
+            let appName = document.getElementById('appName').value.trim();
+            const themeColor = document.getElementById('themeColor').value;
+            
+            if (!siteUrl) {
+                alert('Введите URL сайта');
+                return;
+            }
+            if (!appName) appName = "Моё PWA";
+            
+            // Валидация URL
+            let validUrl;
+            try {
+                validUrl = new URL(siteUrl);
+                if (!validUrl.protocol.startsWith('https')) {
+                    alert('Используйте HTTPS (сайт должен быть на защищённом протоколе)');
+                    return;
+                }
+            } catch(e) {
+                alert('Некорректный URL. Убедитесь, что он начинается с https://');
+                return;
+            }
+            
+            const statusDiv = document.getElementById('status');
+            statusDiv.classList.remove('hidden');
+            statusDiv.innerHTML = 'Генерация файлов...';
+            
+            try {
+                // Генерируем содержимое
+                const indexHtml = getIndexHtml(validUrl.href, appName);
+                const manifestObj = getManifest(appName, themeColor, validUrl.href);
+                const manifestJson = JSON.stringify(manifestObj, null, 2);
+                const swJs = getSwJs();
+                
+                // Создаём ZIP
+                const zip = new JSZip();
+                zip.file("index.html", indexHtml);
+                zip.file("manifest.json", manifestJson);
+                zip.file("sw.js", swJs);
+                
+                // Создаём ZIP-файл и скачиваем
+                const content = await zip.generateAsync({ type: "blob" });
+                saveAs(content, `${appName.replace(/[^a-z0-9]/gi, '_')}_pwa.zip`);
+                
+                statusDiv.innerHTML = '✅ Готово! Файл скачан. Распакуйте и загрузите на ваш хостинг.';
+                setTimeout(() => statusDiv.classList.add('hidden'), 5000);
+            } catch(err) {
+                console.error(err);
+                statusDiv.innerHTML = '❌ Ошибка при генерации. Попробуйте ещё раз.';
+            }
+        });
+    </script>
+</body>
+</html>
