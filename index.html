@@ -210,15 +210,15 @@
     <script>
         
         const projects = [
-    { title: "Cleaner Lite для Mac", description: "Очистка системы, удаление кэша, управление автозагрузкой", demoUrl: "#", repoUrl: "#", tech: "Swift, SwiftUI", imagePlaceholder: "🧹", category: "mac", template: false },
-    { title: "Менеджер окон", description: "Быстрое перемещение и изменение размеров окон с клавиатуры", demoUrl: "#", repoUrl: "#", tech: "Objective-C, macOS", imagePlaceholder: "🪟", category: "mac", template: false },
-    { title: "Ремонт-Про (калькулятор)", description: "PWA с калькулятором ремонта, офлайн-режим, админ-панель для цен", demoUrl: "https://vf12776-ux.github.io/remont-pro/", repoUrl: "#", tech: "HTML/CSS/JS, LocalStorage", imagePlaceholder: "🔧", category: "mobile", template: true },
-    { title: "Автор — бронирование", description: "Форма заказа услуг, имитация оплаты, выбор города", demoUrl: "https://vf12776-ux.github.io/Avtor-App-Simple/", repoUrl: "#", tech: "Tailwind, JS, PWA", imagePlaceholder: "📅", category: "mobile", template: true },
-    { title: "Дети Света (магазин одежды)", description: "Лендинг-приложение с корзиной и уведомлениями", demoUrl: "https://vf12776-ux.github.io/detisveta-pwa/", repoUrl: "#", tech: "HTML/CSS/JS, Push API", imagePlaceholder: "👕", category: "mobile", template: true },
-    { title: "Настоечная", description: "PWA-приложение для учёта настоек и напитков", demoUrl: "https://vf12776-ux.github.io/nastoechnaya-pwa/", repoUrl: "#", tech: "HTML/CSS/JS, PWA", imagePlaceholder: "🍷", category: "mobile", template: true },
-    { title: "Горбуфет (сеть кафе)", description: "Меню и доставка, PWA-обёртка для TapLink", demoUrl: "https://gorbufet-pwa.onrender.com", repoUrl: "#", tech: "PWA, Service Worker", imagePlaceholder: "☕", category: "hybrid", template: true },
-    { title: "China Business Landing", description: "Адаптивный лендинг с анимацией, шаблон для бизнеса", demoUrl: "https://vf12776-ux.github.io/china-busines-landing/", repoUrl: "#", tech: "HTML/CSS, Flex/Grid", imagePlaceholder: "🇨🇳", category: "hybrid", template: true },
-    { title: "P2P Messanger (Go + WebRTC)", description: "Децентрализованный мессенджер для бизнеса", demoUrl: "https://p2p-messenger-go.onrender.com", repoUrl: "#", tech: "Go, WebSockets, PWA", imagePlaceholder: "💬", category: "hybrid", template: true }
+    { title: "Cleaner Lite для Mac", description: "Очистка системы, удаление кэша, управление автозагрузкой", demoUrl: "#", tech: "Swift, SwiftUI", imagePlaceholder: "🧹", category: "mac" },
+    { title: "Менеджер окон", description: "Быстрое перемещение и изменение размеров окон с клавиатуры", demoUrl: "#", tech: "Objective-C, macOS", imagePlaceholder: "🪟", category: "mac" },
+    { title: "Ремонт-Про (калькулятор)", description: "PWA с калькулятором ремонта, офлайн-режим, админ-панель для цен", demoUrl: "https://vf12776-ux.github.io/remont-pro/", tech: "HTML/CSS/JS, LocalStorage", imagePlaceholder: "🔧", category: "mobile" },
+    { title: "Автор — бронирование", description: "Форма заказа услуг, имитация оплаты, выбор города", demoUrl: "https://vf12776-ux.github.io/Avtor-App-Simple/", tech: "Tailwind, JS, PWA", imagePlaceholder: "📅", category: "mobile" },
+    { title: "Дети Света (магазин одежды)", description: "Лендинг-приложение с корзиной и уведомлениями", demoUrl: "https://vf12776-ux.github.io/detisveta-pwa/", tech: "HTML/CSS/JS, Push API", imagePlaceholder: "👕", category: "mobile" },
+    { title: "Настоечная", description: "PWA-приложение для учёта настоек и напитков", demoUrl: "https://vf12776-ux.github.io/nastoechnaya-pwa/", tech: "HTML/CSS/JS, PWA", imagePlaceholder: "🍷", category: "mobile" },
+    { title: "Горбуфет (сеть кафе)", description: "Меню и доставка, PWA-обёртка для TapLink", demoUrl: "https://gorbufet-pwa.onrender.com", tech: "PWA, Service Worker", imagePlaceholder: "☕", category: "hybrid" },
+    { title: "China Business Landing", description: "Адаптивный лендинг с анимацией, шаблон для бизнеса", demoUrl: "https://vf12776-ux.github.io/china-busines-landing/", tech: "HTML/CSS, Flex/Grid", imagePlaceholder: "🇨🇳", category: "hybrid" },
+    { title: "P2P Messanger (Go + WebRTC)", description: "Децентрализованный мессенджер для бизнеса", demoUrl: "https://p2p-messenger-go.onrender.com", tech: "Go, WebSockets, PWA", imagePlaceholder: "💬", category: "hybrid" }
 ];
         // Функция рендера карточек с учётом фильтра
 function renderProjects(filter) {
@@ -236,23 +236,15 @@ function renderProjects(filter) {
         const card = document.createElement('div');
         card.className = 'bg-white rounded-xl shadow-md overflow-hidden card-hover transition';
         
-        const buttonsHTML = proj.template 
-            ? `
-                <a href="${proj.demoUrl}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">Смотреть</a>
-                <button onclick="orderProject('${proj.title}')" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">Заказать</button>
-            `
-            : `
-                <span class="text-gray-500 text-sm italic">Индивидуальная разработка</span>
-            `;
-        
         card.innerHTML = `
             <div class="p-6">
                 <div class="text-5xl mb-4">${proj.imagePlaceholder}</div>
                 <h3 class="text-xl font-bold text-gray-800 mb-2">${proj.title}</h3>
                 <p class="text-gray-600 text-sm mb-3">${proj.description}</p>
                 <p class="text-xs text-gray-400 mb-4">${proj.tech}</p>
-                <div class="flex justify-between items-center gap-2">
-                    ${buttonsHTML}
+                <div class="flex justify-between items-center gap-3">
+                    <a href="${proj.demoUrl}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition flex-1 text-center">Смотреть</a>
+                    <button onclick="orderProject('${proj.title}')" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition flex-1 text-center">Заказать</button>
                 </div>
             </div>
         `;
@@ -260,10 +252,10 @@ function renderProjects(filter) {
     });
 }
 
-// Функция для кнопки "Заказать"
 function orderProject(projectName) {
-    const message = encodeURIComponent(`Здравствуйте! Хочу заказать приложение по шаблону "${projectName}". Расскажите подробнее о сроках и стоимости.`);
     document.querySelector('footer').scrollIntoView({ behavior: 'smooth' });
+    // Можно добавить alert, чтобы пользователь точно заметил прокрутку
+    setTimeout(() => alert(`Напишите мне, что хотите заказать "${projectName}"!`), 500);
 }
 
         // Навешиваем фильтры
