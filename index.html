@@ -9,6 +9,9 @@
     <link rel="icon" type="image/png" sizes="16x16" href="./icon-192.png">
     <link rel="shortcut icon" href="./icon-192.png">
     <link rel="apple-touch-icon" href="./icon-192.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -183,6 +186,17 @@ header a.bg-white { background: linear-gradient(180deg,#f7f9fb,#c9ced5) !importa
   text-shadow: 0 1px 2px rgba(0,0,0,.45);
 }
 .btn-create:hover { filter:brightness(1.12); }
+/* Название — Russo One + металлический градиент на буквах */
+.brand-title {
+  font-family: 'Russo One', system-ui, sans-serif;
+  background: linear-gradient(180deg,#ffffff 0%, #d3d8de 40%, #878e96 55%, #f2f4f7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,.7));
+  letter-spacing: 1px;
+}
     </style>
 </head>
 <body class="bg-gray-50 font-sans">
