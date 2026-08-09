@@ -94,6 +94,36 @@
         4px 4px 0 rgba(0,0,0,0.3),
         6px 6px 0 rgba(0,0,0,0.2);
 }
+/* ===== ТЁМНЫЙ МЕТАЛЛИК ===== */
+body { background:#0b0d10; color:#e8eaed; }
+
+.bg-gray-50 { background:#0b0d10 !important; }
+.bg-white   { background:#15181c !important; }
+.bg-gray-100{ background:#1a1e23 !important; }
+.bg-gray-200{ background:#22262b !important; }
+.text-gray-800 { color:#eef1f4 !important; }
+.text-gray-700 { color:#d4d9de !important; }
+.text-gray-600 { color:#aeb5bc !important; }
+.text-gray-500 { color:#8b9299 !important; }
+.text-gray-400 { color:#7c838a !important; }
+.text-gray-300 { color:#a5abb2 !important; }
+.shadow-md { box-shadow: 0 4px 14px rgba(0,0,0,.45) !important; }
+
+.gradient-bg { background: linear-gradient(180deg,#0e1013,#16191d); border-bottom:1px solid #2c3138; }
+.brand-title { color:#f2f4f7; text-shadow: 0 1px 0 rgba(255,255,255,.25), 0 3px 10px rgba(0,0,0,.8); letter-spacing:.5px; }
+header a.bg-white { background: linear-gradient(180deg,#f7f9fb,#c9ced5) !important; color:#101214 !important; }
+
+.card-hover { border:1px solid #24282e; background: linear-gradient(180deg,#1b2026,#14171c) !important; }
+.card-hover:hover { border-color:#3d434b; box-shadow: 0 18px 35px rgba(0,0,0,.6); }
+
+.filter-btn { background: linear-gradient(180deg,#31363c,#1e2226); color:#c6ccd3; border:1px solid #3a4046; }
+.filter-btn.active { background: linear-gradient(180deg,#f7f9fb,#c9ced5 55%,#aab1b9); color:#101214; border-color:#e6e9ed; font-weight:700; }
+
+/* Кнопки карточек: чёрная и серая, овальные */
+.btn-watch { background:#0b0c0e; color:#ffffff; border:1px solid #33383e; }
+.btn-watch:hover { background:#17191c; }
+.btn-order { background: linear-gradient(180deg,#e9edf1,#c6ccd3 55%,#a9b0b8); color:#101214; border:1px solid #868d95; }
+.btn-order:hover { filter:brightness(1.07); }
     </style>
 </head>
 <body class="bg-gray-50 font-sans">
@@ -210,15 +240,15 @@
     <script>
         
         const projects = [
-    { title: "Cleaner Lite для Mac", description: "Очистка системы, удаление кэша, управление автозагрузкой", demoUrl: "#", tech: "Swift, SwiftUI", imagePlaceholder: "🧹", category: "mac" },
-    { title: "Менеджер окон", description: "Быстрое перемещение и изменение размеров окон с клавиатуры", demoUrl: "#", tech: "Objective-C, macOS", imagePlaceholder: "🪟", category: "mac" },
-    { title: "Ремонт-Про (калькулятор)", description: "PWA с калькулятором ремонта, офлайн-режим, админ-панель для цен", demoUrl: "https://vf12776-ux.github.io/remont-pro/", tech: "HTML/CSS/JS, LocalStorage", imagePlaceholder: "🔧", category: "mobile" },
-    { title: "Автор — бронирование", description: "Форма заказа услуг, имитация оплаты, выбор города", demoUrl: "https://vf12776-ux.github.io/Avtor-App-Simple/", tech: "Tailwind, JS, PWA", imagePlaceholder: "📅", category: "mobile" },
-    { title: "Дети Света (магазин одежды)", description: "Лендинг-приложение с корзиной и уведомлениями", demoUrl: "https://vf12776-ux.github.io/detisveta-pwa/", tech: "HTML/CSS/JS, Push API", imagePlaceholder: "👕", category: "mobile" },
-    { title: "Настоечная", description: "PWA-приложение для учёта настоек и напитков", demoUrl: "https://vf12776-ux.github.io/nastoechnaya-pwa/", tech: "HTML/CSS/JS, PWA", imagePlaceholder: "🍷", category: "mobile" },
-    { title: "Горбуфет (сеть кафе)", description: "Меню и доставка, PWA-обёртка для TapLink", demoUrl: "https://gorbufet-pwa.onrender.com", tech: "PWA, Service Worker", imagePlaceholder: "☕", category: "hybrid" },
-    { title: "China Business Landing", description: "Адаптивный лендинг с анимацией, шаблон для бизнеса", demoUrl: "https://vf12776-ux.github.io/china-busines-landing/", tech: "HTML/CSS, Flex/Grid", imagePlaceholder: "🇨🇳", category: "hybrid" },
-    { title: "P2P Messanger (Go + WebRTC)", description: "Децентрализованный мессенджер для бизнеса", demoUrl: "https://p2p-messenger-go.onrender.com", tech: "Go, WebSockets, PWA", imagePlaceholder: "💬", category: "hybrid" }
+    { title: "Cleaner Lite для Mac", description: "Очистка системы, удаление кэша, управление автозагрузкой", demoUrl: "#", tech: "Swift, SwiftUI", imagePlaceholder: "fa-solid fa-broom", category: "mac" },
+    { title: "Менеджер окон", description: "Быстрое перемещение и изменение размеров окон с клавиатуры", demoUrl: "#", tech: "Objective-C, macOS", imagePlaceholder: "fa-solid fa-window-maximize", category: "mac" },
+    { title: "Ремонт-Про (калькулятор)", description: "PWA с калькулятором ремонта, офлайн-режим, админ-панель для цен", demoUrl: "https://vf12776-ux.github.io/remont-pro/", tech: "HTML/CSS/JS, LocalStorage", imagePlaceholder: "fa-solid fa-hammer", category: "mobile" },
+    { title: "Автор — бронирование", description: "Форма заказа услуг, имитация оплаты, выбор города", demoUrl: "https://vf12776-ux.github.io/Avtor-App-Simple/", tech: "Tailwind, JS, PWA", imagePlaceholder: "fa-solid fa-calendar-check", category: "mobile" },
+    { title: "Дети Света (магазин одежды)", description: "Лендинг-приложение с корзиной и уведомлениями", demoUrl: "https://vf12776-ux.github.io/detisveta-pwa/", tech: "HTML/CSS/JS, Push API", imagePlaceholder: "fa-solid fa-shirt", category: "mobile" },
+    { title: "Настоечная", description: "PWA-приложение для учёта настоек и напитков", demoUrl: "https://vf12776-ux.github.io/nastoechnaya-pwa/", tech: "HTML/CSS/JS, PWA", imagePlaceholder: "fa-solid fa-wine-glass", category: "mobile" },
+    { title: "Горбуфет (сеть кафе)", description: "Меню и доставка, PWA-обёртка для TapLink", demoUrl: "https://gorbufet-pwa.onrender.com", tech: "PWA, Service Worker", imagePlaceholder: "fa-solid fa-mug-hot", category: "hybrid" },
+    { title: "China Business Landing", description: "Адаптивный лендинг с анимацией, шаблон для бизнеса", demoUrl: "https://vf12776-ux.github.io/china-busines-landing/", tech: "HTML/CSS, Flex/Grid", imagePlaceholder: "fa-solid fa-globe", category: "hybrid" },
+    { title: "P2P Messanger (Go + WebRTC)", description: "Децентрализованный мессенджер для бизнеса", demoUrl: "https://p2p-messenger-go.onrender.com", tech: "Go, WebSockets, PWA", imagePlaceholder: "fa-solid fa-comments", category: "hybrid" }
 ];
         // Функция рендера карточек с учётом фильтра
 function renderProjects(filter) {
@@ -226,25 +256,24 @@ function renderProjects(filter) {
     if (!grid) return;
     grid.innerHTML = '';
     const filtered = filter === 'all' ? projects : projects.filter(p => p.category === filter);
-    
+
     if (filtered.length === 0) {
         grid.innerHTML = '<div class="col-span-full text-center py-10 text-gray-500">Проектов в этой категории пока нет. Скоро добавлю.</div>';
         return;
     }
-    
+
     filtered.forEach(proj => {
         const card = document.createElement('div');
         card.className = 'bg-white rounded-xl shadow-md overflow-hidden card-hover transition';
-        
         card.innerHTML = `
-            <div class="p-6">
-                <div class="text-5xl mb-4">${proj.imagePlaceholder}</div>
+            <div class="p-6 text-center">
+                <div class="text-4xl mb-4" style="color:#9aa1a9;"><i class="${proj.imagePlaceholder}"></i></div>
                 <h3 class="text-xl font-bold text-gray-800 mb-2">${proj.title}</h3>
                 <p class="text-gray-600 text-sm mb-3">${proj.description}</p>
                 <p class="text-xs text-gray-400 mb-4">${proj.tech}</p>
                 <div class="flex justify-between items-center gap-3">
-                    <a href="${proj.demoUrl}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition flex-1 text-center">Смотреть</a>
-                    <button onclick="orderProject('${proj.title}')" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition flex-1 text-center">Заказать</button>
+                    <a href="${proj.demoUrl}" target="_blank" class="btn-watch px-4 py-2 rounded-full text-sm font-medium transition flex-1 text-center">Смотреть</a>
+                    <button onclick="orderProject('${proj.title}')" class="btn-order px-4 py-2 rounded-full text-sm font-semibold transition flex-1 text-center">Заказать</button>
                 </div>
             </div>
         `;
@@ -254,10 +283,7 @@ function renderProjects(filter) {
 
 function orderProject(projectName) {
     document.querySelector('footer').scrollIntoView({ behavior: 'smooth' });
-    // Можно добавить alert, чтобы пользователь точно заметил прокрутку
-    setTimeout(() => alert(`Напишите мне, что хотите заказать "${projectName}"!`), 500);
 }
-
         // Навешиваем фильтры
         const filterBtns = document.querySelectorAll('.filter-btn');
         let currentFilter = 'all';
